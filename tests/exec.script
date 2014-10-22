@@ -1,0 +1,41 @@
+Script started on Tue 21 Oct 2014 11:03:26 PM PDT
+]0;linux01@linux01-Lenovo-IdeaPad-Y510P: ~/Documents/CS_100/rshell/testslinux01@linux01-Lenovo-IdeaPad-Y510P:~/Documents/CS_100/rshell/tests$ cd ..
+]0;linux01@linux01-Lenovo-IdeaPad-Y510P: ~/Documents/CS_100/rshelllinux01@linux01-Lenovo-IdeaPad-Y510P:~/Documents/CS_100/rshell$ cd src/
+]0;linux01@linux01-Lenovo-IdeaPad-Y510P: ~/Documents/CS_100/rshell/srclinux01@linux01-Lenovo-IdeaPad-Y510P:~/Documents/CS_100/rshell/src$ ./a.out 
+getlogin: No such process
+@linux01-Lenovo-IdeaPad-Y510P$ ls
+a.out  main.cpp
+@linux01-Lenovo-IdeaPad-Y510P$ ls 0a  -a
+.  ..  a.out  main.cpp
+@linux01-Lenovo-IdeaPad-Y510P$ ls 0a    -a -l
+total 28
+drwxrwxr-x 2 linux01 linux01  4096 Oct 21 22:54 .
+drwxrwxr-x 5 linux01 linux01  4096 Oct 21 23:02 ..
+-rwxrwxr-x 1 linux01 linux01 13725 Oct 21 22:54 a.out
+-rw-rw-r-- 1 linux01 linux01  1761 Oct 21 22:50 main.cpp
+@linux01-Lenovo-IdeaPad-Y510P$ echo hello world
+hello world
+@linux01-Lenovo-IdeaPad-Y510P$ echo hello
+hello
+@linux01-Lenovo-IdeaPad-Y510P$ echo 
+
+@linux01-Lenovo-IdeaPad-Y510P$ echo "test qupte   ptes    otes"
+test quotes
+@linux01-Lenovo-IdeaPad-Y510P$ echo "test quotes and #comments"
+test quotes and #comments
+@linux01-Lenovo-IdeaPad-Y510P$ echo test comments #this will not shore  w
+test comments #this will not show
+@linux01-Lenovo-IdeaPad-Y510P$ mk  dir testcode
+@linux01-Lenovo-IdeaPad-Y510P$ ls
+a.out  main.cpp  testcode
+@linux01-Lenovo-IdeaPad-Y510P$ rmdir testcode
+@linux01-Lenovo-IdeaPad-Y510P$ ls
+a.out  main.cpp
+@linux01-Lenovo-IdeaPad-Y510P$ clear
+[H[2J@linux01-Lenovo-IdeaPad-Y510P$ cd 
+execvp: No such file or directory
+@linux01-Lenovo-IdeaPad-Y510P$ exit
+]0;linux01@linux01-Lenovo-IdeaPad-Y510P: ~/Documents/CS_100/rshell/srclinux01@linux01-Lenovo-IdeaPad-Y510P:~/Documents/CS_100/rshell/src$ exit
+exit
+
+Script done on Tue 21 Oct 2014 11:05:22 PM PDT
