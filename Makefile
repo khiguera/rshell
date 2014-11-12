@@ -1,4 +1,4 @@
-all: bin rshell cp
+all: bin rshell cp ls
 
 bin:
 		[ ! -d $bin ] && mkdir bin
@@ -8,3 +8,6 @@ rshell:
 
 cp:
 		g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/cp
+
+ls:
+		g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/ls
