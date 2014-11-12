@@ -10,4 +10,4 @@ cp:
 		g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/cp
 
 ls:
-		g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o ./bin/ls
+		g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o ./bin/ls
