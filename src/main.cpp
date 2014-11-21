@@ -19,7 +19,6 @@ void piping(char in[],int count,int cmdnum)
 	char *str=NULL;
 	char leftPart[MAX];
 	char rightPart[MAX];
-	cerr<<in<<endl;
 	for(unsigned i=0;in[i]!='|';++i)
 	{
 		leftPart[i]=in[i];
@@ -31,8 +30,6 @@ void piping(char in[],int count,int cmdnum)
 		rightPart[i]=in[pos];
 		++pos;
 	}
-	cerr<<leftPart<<endl;
-	cerr<<rightPart<<endl;
 	if(cmdnum!=count)
 	{
 		fd=pipe(pipefd);
@@ -45,6 +42,8 @@ void piping(char in[],int count,int cmdnum)
 	int id=fork();
 	if(id==0)//in child process
 	{
+		for(int u=0;u<2;++u)
+		{
 		str=strtok(leftPart,DELIMS);
 		char* argv[MAX];
 		argv[0]=new char[50];
@@ -61,22 +60,45 @@ void piping(char in[],int count,int cmdnum)
 		argv[i+1]='\0';//add null terminating character
 			if(cmdnum==0)
 			{
-				close(1);
-				dup(fd);
+				if(close(1)==-1)
+					perror("close");
+				if(dup(fd)==-1)
+					perror("dup");
 			}
-		piping(rightPart,count,++cmdnum);
+			else
+			{
+				if(close(0)==-1)
+					perror("close");
+				if(dup(fd)==-1)
+					perror("dup");
+			}
+			++cmdnum;
+			for(unsigned o=0;rightPart[o]!='\0';++o)
+				leftPart[o]=rightPart[o];
 		int pid =execvp(argv[0],argv);
 		if(pid==-1)
 		{//exit if execvp failed
 			perror("execvp");
 			exit(1);
 		}
+		}
+	}
+	else if (id==-1)
+	{
+		perror("fork");
+		exit(1);
+	}
+	else
+	{
+		for(int u=0;u<2;++u)
+		{
 		if(wait(NULL)==-1)
 		{
 			perror("wait");
 			exit(1);
 		}
-	}			
+		}
+	}
 }
 int main()
 {
@@ -105,7 +127,7 @@ int main()
 				hasQuote=true;
 			if(!hasQuote&&line[j]=='#')
 				line[j]='\0';
-			if(line[j]=='|')
+			if(line[j]=='|'||line[j]=='<'||line[j]=='>')
 			{
 				hasPipe=true;
 				++pipeCnt;

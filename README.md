@@ -26,6 +26,11 @@ The cp.cpp can copy files just as the regular cp. It has an optional flag that w
 in 3 different ways displaying the run time of each. Otherwise the default is the fastest of the
 3 methods in the file with the run time still being printed.
 
+The hw2 tag is for piping and io redirection
+============
+Piping is not working at all nor is io redirection 
+Will continue to work on code throughout weekend to show on monday hopefully for some points
+
 Known bugs:
 ===========
 If enter is hit with no input or with simply a space, it will segfault.
@@ -61,4 +66,9 @@ The Color functionality is not applied to no flags and to the -a flag due to tim
 CP BUGS
 The cp.cpp does not allow the optional flag to come before the arguments, only after.
 This is due to time constraints not allowing to be fixed before the deadline.
+
+PIPING IO REDIRECTION
+code is able to catch when there is a pipe or an io redirection symbol however it is not handled
+properly.
+
 
