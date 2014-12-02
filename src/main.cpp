@@ -69,12 +69,12 @@ void piping(char in[],int count,int cmdnum)
 			{
 				if(close(0)==-1)
 					perror("close");
-				if(dup(fd)==-1)
-					perror("dup");
 			}
 			++cmdnum;
 			for(unsigned o=0;rightPart[o]!='\0';++o)
 				leftPart[o]=rightPart[o];
+			if(leftPart[0]!='|')
+				piping(leftPart,count,cmdnum);
 		int pid =execvp(argv[0],argv);
 		if(pid==-1)
 		{//exit if execvp failed
@@ -100,6 +100,16 @@ void piping(char in[],int count,int cmdnum)
 		}
 	}
 }
+void sig_handler(int signum)
+{
+	if(signum==SIGINT)
+	{
+		signal(SIGINT,SIG_IGN);
+		if(errno==-1)
+				perror("perror");
+	}
+	return;
+}
 int main()
 {
 	char line[MAX];		//line is used for input
@@ -115,9 +125,18 @@ int main()
 	perror("getlogin");
 	if(hos!=0)
 	perror("gethostname");
+	signal(SIGINT,sig_handler);
+	if(errno==-1)
+		perror("signal");
 	while(1)
 	{
+begin:
 		//print out prompt and wait for user input
+		char *wd=get_current_dir_name();
+		if(errno==-1)
+			perror("getenv");
+		cout<<endl;
+		cout<<wd<<endl;
 		cout<<user<<"@"<<host<< "$ ";
 		fgets(line, MAX, stdin);
 		//check for quote or comment and set null terminating accordingly
@@ -133,15 +152,26 @@ int main()
 				++pipeCnt;
 			}
 		}
-		if(hasPipe)
+		if(line[0]=='\n' || line[0]=='\0')
+			goto begin;
+		if(hasPipe);
 		{
-			piping(line,pipeCnt,0);
-			hasPipe=false;
+		//	piping(line,pipeCnt,0);
+		//	hasPipe=false;
 		}
 		//parse line for first cmd and see if it is exit
 		cmd=strtok(line, DELIMS);
 		if(strcmp(cmd,"exit")==0)
 				exit(0);
+		if(strcmp(cmd,"cd")==0)
+		{
+			cmd=strtok(NULL,DELIMS);
+			chdir(cmd);
+			if(errno==-1)
+				perror("cd");
+			
+			goto begin;
+		}
 		//if not exit attempt to execute cmd
 		else
 		{
@@ -173,6 +203,8 @@ int main()
 			}
 			else //in parent process
 				wait(NULL);
+				if(errno==-1)
+					perror("wait");
 		}
 		
 	}
