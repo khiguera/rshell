@@ -1,0 +1,39 @@
+Script started on Fri 05 Dec 2014 10:39:17 PM PST
+]0;linux01@: ~/Documents/CS_100/rshell/testslinux01:tests$ cd ..
+]0;linux01@: ~/Documents/CS_100/rshelllinux01:rshell$ cd src/
+]0;linux01@: ~/Documents/CS_100/rshell/srclinux01:src$ ./a.out
+getlogin: No such process
+
+/home/linux01/Documents/CS_100/rshell/src
+ÀY@linux01-Lenovo-IdeaPad-Y510P$ cd ..
+
+/home/linux01/Documents/CS_100/rshell
+ÀY@linux01-Lenovo-IdeaPad-Y510P$ ls
+LICENSE  Makefile  README.md  src  tests
+
+/home/linux01/Documents/CS_100/rshell
+ÀY@linux01-Lenovo-IdeaPad-Y510P$ cd src
+
+/home/linux01/Documents/CS_100/rshell/src
+ÀY@linux01-Lenovo-IdeaPad-Y510P$ ls
+a.out  cp.cpp  ls.cpp  main.cpp  Timer.h
+
+/home/linux01/Documents/CS_100/rshell/src
+ÀY@linux01-Lenovo-IdeaPad-Y510P$ echo he       cat 
+hello
+hello
+^C
+/home/linux01/Documents/CS_100/rshell/src
+ÀY@linux01-Lenovo-IdeaPad-Y510P$ ls
+a.out  cp.cpp  ls.cpp  main.cpp  Timer.h
+
+/home/linux01/Documents/CS_100/rshell/src
+ÀY@linux01-Lenovo-IdeaPad-Y510P$ ls 0a  -a
+.  ..  a.out  cp.cpp  ls.cpp  main.cpp	Timer.h
+
+/home/linux01/Documents/CS_100/rshell/src
+ÀY@linux01-Lenovo-IdeaPad-Y510P$ exit
+]0;linux01@: ~/Documents/CS_100/rshell/srclinux01:src$ exit
+exit
+
+Script done on Fri 05 Dec 2014 10:40:08 PM PST

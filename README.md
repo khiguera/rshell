@@ -31,10 +31,17 @@ The hw2 tag is for piping and io redirection
 Piping is not working at all nor is io redirection 
 Will continue to work on code throughout weekend to show on monday hopefully for some points
 
+The hw3 tag has included signal handling and the getenv syscall as well as cd
+============
+cd is working properly as does in bash with the exception of taking in the home or no argument for cd
+
+execvp has been changed to execv, as a result the getenv syscall is invoked with the PATH bash
+variable.
+
+Signal handling has been introduced for the ^C signal to work as in bash.
+
 Known bugs:
 ===========
-If enter is hit with no input or with simply a space, it will segfault.
-
 There is no connector support.
 
 There is a possiblity of memory leaks. The source code has not been analyzed thoroughly enough
@@ -71,4 +78,4 @@ PIPING IO REDIRECTION
 code is able to catch when there is a pipe or an io redirection symbol however it is not handled
 properly.
 
-
+When execvp was changed to execv, for some reason comments are no longer supported.

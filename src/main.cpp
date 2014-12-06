@@ -7,6 +7,7 @@
 #include <string>
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 
 using namespace std;
 #define DELIMS " \r\t\n\""
@@ -110,9 +111,33 @@ void sig_handler(int signum)
 	}
 	return;
 }
+vector<string> getPath(char *cmd)
+{
+	char *path=NULL;
+	char *pat=NULL;
+	vector<string> all_paths;
+	int k=0;
+	path=getenv("PATH");
+	if(errno==-1)
+	perror("getenv");
+	path=strtok(path,":");
+	while(path!=NULL)
+	{
+		pat=path;
+		all_paths.push_back(pat);
+		all_paths.at(k)+='/';
+		all_paths.at(k)+=cmd;
+		++k;
+		path=strtok(NULL,":");
+	}
+	return all_paths;
+
+
+}
 int main()
 {
 	char line[MAX];		//line is used for input
+	char line1[MAX];
 	char *cmd=NULL;		//cmd is used for the parsed string, first parse is the cmd
 	char user[256];		
 	char host[256];
@@ -139,14 +164,15 @@ begin:
 		cout<<wd<<endl;
 		cout<<user<<"@"<<host<< "$ ";
 		fgets(line, MAX, stdin);
+		strcpy(line1,line);
 		//check for quote or comment and set null terminating accordingly
 		for(unsigned j=0;j<MAX;++j)
 		{
-			if(line[j]=='\"')
+			if(line1[j]=='\"')
 				hasQuote=true;
-			if(!hasQuote&&line[j]=='#')
+			if(!hasQuote&&line1[j]=='#')
 				line[j]='\0';
-			if(line[j]=='|'||line[j]=='<'||line[j]=='>')
+			if(line1[j]=='|'||line1[j]=='<'||line1[j]=='>')
 			{
 				hasPipe=true;
 				++pipeCnt;
@@ -178,23 +204,34 @@ begin:
 			int id=fork();
 			if(id==0)//in child process
 			{
-				char* argv[MAX];
-				argv[0]=new char[50];
-				strcpy(argv[0],cmd);
-				cmd=strtok(NULL,DELIMS);
-				unsigned int i=0;
-				while(cmd!=NULL) //tokenize and set arguments for execvp
+				char *argv[MAX];
+				vector<string> all_paths=getPath(cmd);
+				for(unsigned l=0; l<all_paths.size();++l)
 				{
-					argv[i+1]=new char[50];
-					strcpy(argv[i+1],cmd);
-					cmd=strtok(NULL,DELIMS);
-					++i;
+					int ac=access(all_paths.at(l).c_str(), X_OK);
+					if(ac==0)
+					{
+						argv[0]=new char[50];
+						strcpy(argv[0],all_paths.at(l).c_str());
+						cmd=strtok(line1,DELIMS);
+						cmd=strtok(NULL,DELIMS);
+						unsigned int i=0;
+						 //tokenize and set arguments for execvp
+						while(cmd!=NULL) 
+						{
+							argv[i+1]=new char[50];
+							strcpy(argv[i+1],cmd);
+							cmd=strtok(NULL,DELIMS);
+							++i;
+						}
+						argv[i+1]='\0'; //add null terminating character
+						int pid =execv(argv[0],argv);
+						//int pid =execvp(argv[0],argv);
+						if(pid==-1) //exit if execvp failed
+							perror("execv");
+							exit(1);
+						}
 				}
-				argv[i+1]='\0'; //add null terminating character
-				int pid =execvp(argv[0],argv);
-				if(pid==-1) //exit if execvp failed
-					perror("execvp");
-					exit(1);
 			}
 			else if(id==-1) //exit if fork failed
 			{
